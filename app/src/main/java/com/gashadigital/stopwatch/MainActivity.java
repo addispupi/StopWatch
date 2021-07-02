@@ -14,8 +14,8 @@ import android.widget.TextView;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-    Button btnStart, btnPause, btnStop, btnReset;
-    private int seconds =0;
+    Button btnStart, btnStop, btnReset;
+    private int seconds = 0;
 
     private boolean running;
     private boolean wasRunning;
@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         btnStart = findViewById(R.id.start);
-        btnPause = findViewById(R.id.pause);
         btnStop = findViewById(R.id.stop);
         btnReset = findViewById(R.id.reset);
 
@@ -40,13 +39,27 @@ public class MainActivity extends AppCompatActivity {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                running = true;
+                if(btnStart.getText().toString() == getString(R.string.start)){
+                    seconds = 0;
+                    running = true;
+                    btnStart.setText(R.string.pause);
+                }
+                else if(btnStart.getText().toString() == getString(R.string.pause)){
+                    running = false;
+                    btnStart.setText(R.string.resume);
+                }
+                else if(btnStart.getText().toString() == getString(R.string.resume)){
+                    running = true;
+                    btnStart.setText(R.string.pause);
+                }
+
             }
         });
         btnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 running = false;
+                btnStart.setText(R.string.start);
             }
         });
         btnReset.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 running = false;
                 seconds = 0;
+                btnStart.setText(R.string.start);
             }
         });
     }
